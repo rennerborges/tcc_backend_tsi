@@ -1,0 +1,647 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "API 4° WTMI",
+    "description": "Ambiente com todos os endpoints referentes a API do 4° Workshop de Tecnologias Móveis e para a Internet ",
+    "contact": {
+      "name": "Workshop de Tecnologias Móveis e para a Internet",
+      "email": "wtmi.ifgoiano@gmail.com",
+      "url": "https://www.even3.com.br/wtmi/"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:7780",
+      "description": "Local"
+    },
+    {
+      "url": "https://wtmi-api.herokuapp.com",
+      "description": "Produção"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Autenticação",
+      "description": "Responsável por todo gerenciamento da autenticação no software"
+    },
+    {
+      "name": "Informações",
+      "description": "Responsável por todo gerenciamento das informações contidas no software"
+    },
+    {
+      "name": "Envio de e-mail",
+      "description": "Responsável por todo gerenciamento de envio de e-mail no software"
+    },
+    {
+      "name": "Importação",
+      "description": "Responsável pelo gerenciamento das importações de dados do Even3"
+    },
+    {
+      "name": "Usuários",
+      "description": "Responsável pelo gerenciamento dos usuários"
+    }
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "tags": [
+          "Home"
+        ],
+        "description": "Rota de teste da API",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": []
+      }
+    },
+    "/login": {
+      "post": {
+        "tags": [
+          "Autenticação"
+        ],
+        "description": "Rota responsável por autenticar um usuário",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Não autorizado"
+          }
+        },
+        "security": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Login"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "tags": [
+          "Usuários"
+        ],
+        "description": "Rota responsável por trazer todos usuários",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Não autorizado"
+          },
+          "403": {
+            "description": "Acesso Negado"
+          }
+        }
+      }
+    },
+    "/user/{email}": {
+      "get": {
+        "tags": [
+          "Usuários"
+        ],
+        "description": "Rota responsável por trazer um usuário específico pelo e-mail do mesmo",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Email do usuário"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Não autorizado"
+          },
+          "403": {
+            "description": "Acesso Negado"
+          },
+          "404": {
+            "description": "Não Encontrado"
+          }
+        }
+      }
+    },
+    "/user": {
+      "post": {
+        "tags": [
+          "Usuários"
+        ],
+        "description": "Rota responsável por criar um usuário",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Criado"
+          },
+          "401": {
+            "description": "Não autorizado"
+          },
+          "403": {
+            "description": "Acesso Negado"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PostUser"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/invite": {
+      "post": {
+        "tags": [
+          "Envio de e-mail"
+        ],
+        "description": "Rota responsável por enviar e-mail de convite ao palestrante",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Não autorizado"
+          },
+          "403": {
+            "description": "Acesso Negado"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SendEmailDefault"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reminder/day": {
+      "post": {
+        "tags": [
+          "Envio de e-mail"
+        ],
+        "description": "Rota responsável por lebrar os usuários quais eventos ele terá no dia",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Não autorizado"
+          },
+          "403": {
+            "description": "Acesso Negado"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SendEmailDefault"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sponsors/invite": {
+      "post": {
+        "tags": [
+          "Envio de e-mail"
+        ],
+        "description": "Rota responsável por lebrar os usuários quais eventos ele terá no dia",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Não autorizado"
+          },
+          "403": {
+            "description": "Acesso Negado"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SendEmailDefault"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/invite/reitor": {
+      "post": {
+        "tags": [
+          "Envio de e-mail"
+        ],
+        "description": "Rota responsável por enviar e-mail de convite ao Reitor",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Não autorizado"
+          },
+          "403": {
+            "description": "Acesso Negado"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SendEmailDefault"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/import/schedule": {
+      "post": {
+        "tags": [
+          "Importação"
+        ],
+        "description": "Rota responsável por importar as programações do arquivo gerado pelo Even3",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Não autorizado"
+          },
+          "403": {
+            "description": "Acesso Negado"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/import/registered": {
+      "post": {
+        "tags": [
+          "Importação"
+        ],
+        "description": "Rota responsável por importar as inscrições do arquivo gerado pelo Even3",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Não autorizado"
+          },
+          "403": {
+            "description": "Acesso Negado"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/info/schedulers": {
+      "get": {
+        "tags": [
+          "Informações"
+        ],
+        "description": "Rota responsável por buscar todas as palestras com suas respectivas inscrições",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Não autorizado"
+          },
+          "403": {
+            "description": "Acesso Negado"
+          }
+        }
+      }
+    },
+    "/info/users/schedulers": {
+      "get": {
+        "tags": [
+          "Informações"
+        ],
+        "description": "Rota responsável por buscar todas os usuários com suas respectivas inscrições",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "query",
+            "description": "Data das palestras",
+            "required": false,
+            "example": "2022-06-01T12:40:19.267Z",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Não autorizado"
+          },
+          "403": {
+            "description": "Acesso Negado"
+          },
+          "404": {
+            "description": "Não Encontrado"
+          }
+        }
+      }
+    },
+    "/info/scheduler/{codeScheduler}": {
+      "get": {
+        "tags": [
+          "Informações"
+        ],
+        "description": "Rota responsável por buscar a programação atual da sala",
+        "parameters": [
+          {
+            "name": "codeScheduler",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Código da palestra",
+            "example": "S6546"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Não autorizado"
+          },
+          "403": {
+            "description": "Acesso Negado"
+          },
+          "404": {
+            "description": "Não Encontrado"
+          }
+        }
+      }
+    },
+    "/info/room/{nameRoom}/schedulers": {
+      "get": {
+        "tags": [
+          "Informações"
+        ],
+        "description": "Rota responsável por buscar todas os eventos daquela sala",
+        "parameters": [
+          {
+            "name": "nameRoom",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Nome da sala",
+            "example": "Sala 1"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Não Encontrado"
+          }
+        }
+      }
+    },
+    "/scheduler/{code}/confirm/presence": {
+      "post": {
+        "tags": [
+          "Informações"
+        ],
+        "description": "Rota responsável por registrar a presença do usuário em uma palestra",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Código da palestra",
+            "example": "65484"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Criado"
+          },
+          "401": {
+            "description": "Não autorizado"
+          },
+          "403": {
+            "description": "Acesso Negado"
+          },
+          "404": {
+            "description": "Não Encontrado"
+          },
+          "409": {
+            "description": "Conflito"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfirmPresence"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/info/scheduler/{codeScheduler}/random/participant": {
+      "get": {
+        "tags": [
+          "Informações"
+        ],
+        "description": "Rota responsável por trazer um participante da palestra escolhida",
+        "parameters": [
+          {
+            "name": "codeScheduler",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Código da palestra",
+            "example": "456139"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Não autorizado"
+          },
+          "403": {
+            "description": "Acesso Negado"
+          },
+          "404": {
+            "description": "Não Encontrado"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "SendEmailDefault": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "rennerferreira23@gmail.com"
+          },
+          "name": {
+            "type": "string",
+            "example": "Renner"
+          }
+        }
+      },
+      "ConfirmPresence": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "rennerferreira23@gmail.com"
+          }
+        }
+      },
+      "PostUser": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Renner Borges"
+          },
+          "password": {
+            "type": "string",
+            "example": "12345678@Re"
+          },
+          "email": {
+            "type": "string",
+            "example": "rennerferreira23@gmail.com"
+          },
+          "role": {
+            "type": "string",
+            "example": "g"
+          },
+          "enabled": {
+            "type": "boolean",
+            "example": true
+          }
+        }
+      },
+      "EditUser": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Renner Ferreira"
+          }
+        }
+      },
+      "Login": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "renner@gmail.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "12345678@Re"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "apiKey",
+        "name": "token",
+        "in": "header"
+      }
+    }
+  },
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ]
+}
