@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
 import * as yup from 'yup';
-import { isValidCpf } from '../util/cpf';
-import { isValidTel } from '../util/tel';
+import { isValidPassword } from '../util/password';
 
 const ValidationUserEdit = (req, res, next) => {
   const schema = yup.object().shape({
@@ -12,30 +11,15 @@ const ValidationUserEdit = (req, res, next) => {
         mongoose.Types.ObjectId.isValid(value),
       ),
     name: yup.string(),
-    tel: yup
+    password: yup
       .string()
+      .required('A senha é necessária')
       .test(
-        'is-tel',
-        'É necessário informar um telefone válido',
-        (value) => !value || isValidTel(value),
-      ),
-    cpf: yup
-      .string()
-      .test(
-        'is-cpf',
-        'Informe um CPF válido',
-        (value) => !value || isValidCpf(value),
+        'is-password',
+        'Informe uma senha com no mínimo de oito caracteres, pelo menos, uma letra maiúscula, uma letra minúscula, um número e um caractere especial',
+        (value) => isValidPassword(value),
       ),
     email: yup.string().email(),
-    dateOfBirth: yup.date(),
-    role: yup
-      .string()
-      .test(
-        'is-role',
-        'Informe uma permissão existente',
-        (value) => !value || value === 'g' || value === 'c',
-      ),
-    workload: yup.number().min(1),
   });
 
   return schema
