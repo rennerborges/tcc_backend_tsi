@@ -6,7 +6,6 @@ import express from 'express';
 import swaggerUi from 'swagger-ui-express';
 import swaggerFile from './swagger/swagger_output.json';
 import app from './app';
-import ManagerCron from './services/cron';
 
 dotenv.config({ path: './variables.env' });
 
@@ -45,5 +44,4 @@ server.listen(process.env.PORT, () => {
   console.log(
     `Documentação: ${blue}http://localhost:${process.env.PORT}/docs${reset}`,
   );
-  ManagerCron.run();
 });
