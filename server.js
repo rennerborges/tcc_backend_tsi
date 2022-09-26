@@ -1,24 +1,25 @@
 /* eslint-disable no-console */
 import cors from 'cors';
 import dotenv from 'dotenv';
-import mongoose from 'mongoose';
 import express from 'express';
 import swaggerUi from 'swagger-ui-express';
+import ConnectionDB from './config/connection-database';
 import swaggerFile from './swagger/swagger_output.json';
 import app from './app';
 
 dotenv.config({ path: './variables.env' });
 
-mongoose.connect(process.env.DATABASE, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
-mongoose.Promise = global.Promise;
-mongoose.connection.on('error', (error) => {
-  console.error(`ERRO: ${error.message}`);
-});
-
 const server = express();
+
+// ===========================================
+// ============= Banco de dados ==============
+// ===========================================
+
+ConnectionDB();
+
+// ===========================================
+// ============= Configurações ===============
+// ===========================================
 
 server.use(cors());
 server.use(express.json());
@@ -33,6 +34,11 @@ server.use(
     swaggerOptions: { persistAuthorization: true },
   }),
 );
+
+// ===========================================
+// ================= Rotas ===================
+// ===========================================
+
 server.use('/', app);
 
 server.listen(process.env.PORT, () => {

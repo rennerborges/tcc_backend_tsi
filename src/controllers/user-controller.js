@@ -69,7 +69,6 @@ export const createUser = async (req, res, next) => {
       name: body.name,
       password: passwordHashed,
       email: body.email,
-      role: body.role,
       enabled: true,
     });
 
@@ -114,7 +113,7 @@ export const updateUser = async (req, res, next) => {
       return res.status(404).json({ message: 'Usuário não encontrado' });
     }
 
-    res.json({ message: 'Ação realizada com sucesso!' });
+    res.send();
   } catch (error) {
     next(error);
   }
@@ -149,7 +148,7 @@ export const deleteUser = async (req, res, next) => {
       return res.status(404).json({ message: 'Usuário não encontrado' });
     }
 
-    res.json({ message: 'Ação realizada com sucesso!' });
+    res.send();
   } catch (error) {
     next(error);
   }

@@ -37,7 +37,6 @@ export const login = async (req, res) => {
   const bodyToken = {
     name: userDatabase.name,
     email: userDatabase.email,
-    role: userDatabase.role,
   };
 
   const token = jwt.sign(bodyToken, process.env.SECRET, {

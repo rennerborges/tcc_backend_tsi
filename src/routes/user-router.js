@@ -1,5 +1,4 @@
 import express from 'express';
-import { Auth } from '../middleware/auth-middleware';
 
 import userController from '../controllers/user-controller';
 import ValidationUserPost from '../validation/user-post-validation';
@@ -10,9 +9,9 @@ const router = express.Router();
 
 router.post('/login', ValidatorLogin, authController.login);
 
-router.get('/users', Auth('g'), userController.getUsers);
-router.get('/user/:email', Auth('gc'), userController.getUser);
-router.post('/user', Auth('g'), ValidationUserPost, userController.createUser);
+router.get('/users', userController.getUsers);
+router.get('/user/:email', userController.getUser);
+router.post('/user', ValidationUserPost, userController.createUser);
 // router.patch('/user', Auth('g'), ValidationUserEdit, userController.updateUser);
 // router.delete('/user/:id', Auth('g'), userController.deleteUser);
 

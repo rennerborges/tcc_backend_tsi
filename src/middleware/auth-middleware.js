@@ -4,9 +4,7 @@ import dotenv from 'dotenv';
 
 dotenv.config({ path: './variables.env' });
 
-export function Auth(permision = '') {
-  const permisions = ['s', ...permision.split('')];
-
+export function Auth() {
   return (req, res, next) => {
     const { token } = req.headers;
 
@@ -22,12 +20,6 @@ export function Auth(permision = '') {
           auth: false,
           message: 'Falha ao autenticar o token.',
         });
-      }
-
-      if (!permisions.includes(decoded.role)) {
-        return res
-          .status(403)
-          .json({ auth: false, message: 'Usuário não autorizado.' });
       }
 
       req.user = decoded;
