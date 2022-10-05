@@ -1,6 +1,7 @@
 import express from 'express';
 
 import userRouters from './user-router';
+import objectRouters from './object-router';
 
 const app = express();
 
@@ -12,5 +13,6 @@ app.get('/', (req, res) => {
 });
 
 app.use(userRouters);
+app.use('/objects', objectRouters);
 
 export default app;

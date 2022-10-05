@@ -3,6 +3,9 @@ const dotenv = require('dotenv');
 const swaggerOptions = require('./swagger-autogen.options');
 const swaggerAutogen = require('swagger-autogen')(swaggerOptions);
 
+const modelObject = require('./jsons/model-object.json');
+const schemaObject = require('./jsons/schema-object.json');
+
 dotenv.config({ path: './variables.env' });
 
 const outputFile = './swagger/swagger_output.json';
@@ -41,6 +44,10 @@ const doc = {
       name: 'Usuários',
       description: 'Responsável pelo gerenciamento dos usuários',
     },
+    {
+      name: 'Objetos',
+      description: 'Responsável pelo gerenciamento dos objetos',
+    },
   ],
   securityDefinitions: {
     bearerAuth: {
@@ -77,6 +84,16 @@ const doc = {
       Login: {
         email: 'renner@gmail.com',
         password: '12345678@Re',
+      },
+      PostObject: {
+        name: 'Mesa',
+        data: schemaObject,
+        model: modelObject,
+      },
+      EditObject: {
+        name: 'Mesa 2',
+        data: schemaObject,
+        model: modelObject,
       },
     },
   },

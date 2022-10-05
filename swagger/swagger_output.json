@@ -23,6 +23,10 @@
     {
       "name": "Usuários",
       "description": "Responsável pelo gerenciamento dos usuários"
+    },
+    {
+      "name": "Objetos",
+      "description": "Responsável pelo gerenciamento dos objetos"
     }
   ],
   "paths": {
@@ -133,6 +137,144 @@
           }
         }
       }
+    },
+    "/objects/": {
+      "get": {
+        "tags": [
+          "Objetos"
+        ],
+        "description": "Rota responsável por trazer todos os objetos",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Não autorizado"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Objetos"
+        ],
+        "description": "Rota responsável por criar um objeto",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Criado"
+          },
+          "401": {
+            "description": "Não autorizado"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PostObject"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/objects/{objectId}": {
+      "get": {
+        "tags": [
+          "Objetos"
+        ],
+        "description": "Rota responsável por trazer um objeto específico pelo id do mesmo",
+        "parameters": [
+          {
+            "name": "objectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Identificação do objeto"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Não autorizado"
+          },
+          "404": {
+            "description": "Não Encontrado"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Objetos"
+        ],
+        "description": "Rota responsável por atualizar um objeto utilizando seu id",
+        "parameters": [
+          {
+            "name": "objectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Identificação do objeto"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Não autorizado"
+          },
+          "404": {
+            "description": "Não Encontrado"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditObject"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Objetos"
+        ],
+        "description": "Rota responsável por desativar um objeto utilizando seu ID",
+        "parameters": [
+          {
+            "name": "objectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Identificação do objeto"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Não autorizado"
+          },
+          "404": {
+            "description": "Não Encontrado"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -203,6 +345,1184 @@
           "password": {
             "type": "string",
             "example": "12345678@Re"
+          }
+        }
+      },
+      "PostObject": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Mesa"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "definitions": {
+                "type": "object",
+                "properties": {
+                  "JSON_VR": {
+                    "type": "object",
+                    "properties": {
+                      "title": {
+                        "type": "string",
+                        "example": "JSON_VR"
+                      },
+                      "properties": {
+                        "type": "object",
+                        "properties": {
+                          "library": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "example": "string"
+                              }
+                            }
+                          },
+                          "instances": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "example": "array"
+                              },
+                              "items": {
+                                "$ref": "#/components/schemas/reference.instance"
+                              },
+                              "minItems": {
+                                "type": "number",
+                                "example": 0
+                              },
+                              "additionalItems": {
+                                "type": "boolean",
+                                "example": true
+                              }
+                            }
+                          },
+                          "relations": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "example": "array"
+                              },
+                              "items": {
+                                "$ref": "#/components/schemas/reference.relation"
+                              },
+                              "minItems": {
+                                "type": "number",
+                                "example": 0
+                              },
+                              "additionalItems": {
+                                "type": "boolean",
+                                "example": true
+                              }
+                            }
+                          },
+                          "specifications": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "example": "array"
+                              },
+                              "items": {
+                                "$ref": "#/components/schemas/reference.specification"
+                              },
+                              "minItems": {
+                                "type": "number",
+                                "example": 0
+                              },
+                              "additionalItems": {
+                                "type": "boolean",
+                                "example": true
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "reference.instance": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "example": "object"
+                      },
+                      "properties": {
+                        "type": "object",
+                        "properties": {
+                          "model": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "example": "string"
+                              }
+                            }
+                          },
+                          "name": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "example": "string"
+                              }
+                            }
+                          },
+                          "orientation": {
+                            "$ref": "#/components/schemas/content.orientation"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "reference.relation": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "example": "object"
+                      },
+                      "properties": {
+                        "type": "object",
+                        "properties": {
+                          "is_directional": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "example": "boolean"
+                              }
+                            }
+                          },
+                          "targets": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "example": "array"
+                              },
+                              "items": {
+                                "type": "array",
+                                "items": {
+                                  "$ref": "#/components/schemas/content.target"
+                                }
+                              }
+                            }
+                          },
+                          "body": {
+                            "$ref": "#/components/schemas/content.rel_body"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "reference.specification": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "example": "object"
+                      },
+                      "properties": {
+                        "type": "object",
+                        "properties": {
+                          "instance_name": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "example": "string"
+                              }
+                            }
+                          },
+                          "attributes": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "example": "array"
+                              },
+                              "items": {
+                                "$ref": "#/components/schemas/content.attribute"
+                              },
+                              "minItems": {
+                                "type": "number",
+                                "example": 0
+                              },
+                              "additionalItems": {
+                                "type": "boolean",
+                                "example": true
+                              }
+                            }
+                          },
+                          "target_points": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "example": "array"
+                              },
+                              "items": {
+                                "$ref": "#/components/schemas/content.target_point"
+                              },
+                              "minItems": {
+                                "type": "number",
+                                "example": 0
+                              },
+                              "additionalItems": {
+                                "type": "boolean",
+                                "example": true
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "content.orientation": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "example": "object"
+                      },
+                      "properties": {
+                        "type": "object",
+                        "properties": {
+                          "position": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "example": "array"
+                              },
+                              "items": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "type": {
+                                      "type": "string",
+                                      "example": "number"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "rotation": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "example": "array"
+                              },
+                              "items": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "type": {
+                                      "type": "string",
+                                      "example": "number"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "content.target": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "example": "object"
+                      },
+                      "properties": {
+                        "type": "object",
+                        "properties": {
+                          "instance_name": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "example": "string"
+                              }
+                            }
+                          },
+                          "target_point": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "example": "string"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "content.rel_body": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "example": "object"
+                      },
+                      "properties": {
+                        "type": "object",
+                        "properties": {
+                          "is_implicity": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "example": "boolean"
+                              }
+                            }
+                          },
+                          "model": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "example": "string"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "content.attribute": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "example": "object"
+                      },
+                      "properties": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "example": "string"
+                              }
+                            }
+                          },
+                          "type_unit": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "example": "string"
+                              }
+                            }
+                          },
+                          "value": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "example": "string"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "content.target_point": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "example": "object"
+                      },
+                      "properties": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "example": "string"
+                              }
+                            }
+                          },
+                          "orientation": {
+                            "$ref": "#/components/schemas/content.orientation"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "model": {
+            "type": "object",
+            "properties": {
+              "library": {
+                "type": "string",
+                "example": "Models/"
+              },
+              "instances": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "model": {
+                      "type": "string",
+                      "example": "disjuntor_gas_t1"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "djt1_04"
+                    },
+                    "orientation": {
+                      "type": "object",
+                      "properties": {
+                        "position": {
+                          "type": "array",
+                          "example": [
+                            -6,
+                            0,
+                            12
+                          ],
+                          "items": {
+                            "type": "number"
+                          }
+                        },
+                        "rotation": {
+                          "type": "array",
+                          "example": [
+                            0,
+                            0,
+                            0
+                          ],
+                          "items": {
+                            "type": "number"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "relations": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "is_directional": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "targets": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "instance_name": {
+                            "type": "string",
+                            "example": "djt1_04"
+                          },
+                          "target_point": {
+                            "type": "string",
+                            "example": "tg_01"
+                          }
+                        }
+                      }
+                    },
+                    "body": {
+                      "type": "object",
+                      "properties": {
+                        "is_implicity": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "model": {}
+                      }
+                    }
+                  }
+                }
+              },
+              "specifications": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "instance_name": {
+                      "type": "string",
+                      "example": "djt1_04"
+                    },
+                    "attributes": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "example": "Capacidade de Interrupção"
+                          },
+                          "type_unit": {
+                            "type": "string",
+                            "example": "kA"
+                          },
+                          "value": {
+                            "type": "string",
+                            "example": "0"
+                          }
+                        }
+                      }
+                    },
+                    "target_points": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "example": "tg_02"
+                          },
+                          "orientation": {
+                            "type": "object",
+                            "properties": {
+                              "position": {
+                                "type": "array",
+                                "example": [
+                                  0,
+                                  9,
+                                  0
+                                ],
+                                "items": {
+                                  "type": "number"
+                                }
+                              },
+                              "rotation": {
+                                "type": "array",
+                                "example": [
+                                  0,
+                                  0,
+                                  0
+                                ],
+                                "items": {
+                                  "type": "number"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "EditObject": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Mesa 2"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "definitions": {
+                "type": "object",
+                "properties": {
+                  "JSON_VR": {
+                    "type": "object",
+                    "properties": {
+                      "title": {
+                        "type": "string",
+                        "example": "JSON_VR"
+                      },
+                      "properties": {
+                        "type": "object",
+                        "properties": {
+                          "library": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "example": "string"
+                              }
+                            }
+                          },
+                          "instances": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "example": "array"
+                              },
+                              "items": {
+                                "$ref": "#/components/schemas/reference.instance"
+                              },
+                              "minItems": {
+                                "type": "number",
+                                "example": 0
+                              },
+                              "additionalItems": {
+                                "type": "boolean",
+                                "example": true
+                              }
+                            }
+                          },
+                          "relations": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "example": "array"
+                              },
+                              "items": {
+                                "$ref": "#/components/schemas/reference.relation"
+                              },
+                              "minItems": {
+                                "type": "number",
+                                "example": 0
+                              },
+                              "additionalItems": {
+                                "type": "boolean",
+                                "example": true
+                              }
+                            }
+                          },
+                          "specifications": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "example": "array"
+                              },
+                              "items": {
+                                "$ref": "#/components/schemas/reference.specification"
+                              },
+                              "minItems": {
+                                "type": "number",
+                                "example": 0
+                              },
+                              "additionalItems": {
+                                "type": "boolean",
+                                "example": true
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "reference.instance": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "example": "object"
+                      },
+                      "properties": {
+                        "type": "object",
+                        "properties": {
+                          "model": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "example": "string"
+                              }
+                            }
+                          },
+                          "name": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "example": "string"
+                              }
+                            }
+                          },
+                          "orientation": {
+                            "$ref": "#/components/schemas/content.orientation"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "reference.relation": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "example": "object"
+                      },
+                      "properties": {
+                        "type": "object",
+                        "properties": {
+                          "is_directional": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "example": "boolean"
+                              }
+                            }
+                          },
+                          "targets": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "example": "array"
+                              },
+                              "items": {
+                                "type": "array",
+                                "items": {
+                                  "$ref": "#/components/schemas/content.target"
+                                }
+                              }
+                            }
+                          },
+                          "body": {
+                            "$ref": "#/components/schemas/content.rel_body"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "reference.specification": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "example": "object"
+                      },
+                      "properties": {
+                        "type": "object",
+                        "properties": {
+                          "instance_name": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "example": "string"
+                              }
+                            }
+                          },
+                          "attributes": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "example": "array"
+                              },
+                              "items": {
+                                "$ref": "#/components/schemas/content.attribute"
+                              },
+                              "minItems": {
+                                "type": "number",
+                                "example": 0
+                              },
+                              "additionalItems": {
+                                "type": "boolean",
+                                "example": true
+                              }
+                            }
+                          },
+                          "target_points": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "example": "array"
+                              },
+                              "items": {
+                                "$ref": "#/components/schemas/content.target_point"
+                              },
+                              "minItems": {
+                                "type": "number",
+                                "example": 0
+                              },
+                              "additionalItems": {
+                                "type": "boolean",
+                                "example": true
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "content.orientation": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "example": "object"
+                      },
+                      "properties": {
+                        "type": "object",
+                        "properties": {
+                          "position": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "example": "array"
+                              },
+                              "items": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "type": {
+                                      "type": "string",
+                                      "example": "number"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "rotation": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "example": "array"
+                              },
+                              "items": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "type": {
+                                      "type": "string",
+                                      "example": "number"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "content.target": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "example": "object"
+                      },
+                      "properties": {
+                        "type": "object",
+                        "properties": {
+                          "instance_name": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "example": "string"
+                              }
+                            }
+                          },
+                          "target_point": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "example": "string"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "content.rel_body": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "example": "object"
+                      },
+                      "properties": {
+                        "type": "object",
+                        "properties": {
+                          "is_implicity": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "example": "boolean"
+                              }
+                            }
+                          },
+                          "model": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "example": "string"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "content.attribute": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "example": "object"
+                      },
+                      "properties": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "example": "string"
+                              }
+                            }
+                          },
+                          "type_unit": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "example": "string"
+                              }
+                            }
+                          },
+                          "value": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "example": "string"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "content.target_point": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "example": "object"
+                      },
+                      "properties": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "example": "string"
+                              }
+                            }
+                          },
+                          "orientation": {
+                            "$ref": "#/components/schemas/content.orientation"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "model": {
+            "type": "object",
+            "properties": {
+              "library": {
+                "type": "string",
+                "example": "Models/"
+              },
+              "instances": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "model": {
+                      "type": "string",
+                      "example": "disjuntor_gas_t1"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "djt1_04"
+                    },
+                    "orientation": {
+                      "type": "object",
+                      "properties": {
+                        "position": {
+                          "type": "array",
+                          "example": [
+                            -6,
+                            0,
+                            12
+                          ],
+                          "items": {
+                            "type": "number"
+                          }
+                        },
+                        "rotation": {
+                          "type": "array",
+                          "example": [
+                            0,
+                            0,
+                            0
+                          ],
+                          "items": {
+                            "type": "number"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "relations": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "is_directional": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "targets": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "instance_name": {
+                            "type": "string",
+                            "example": "djt1_04"
+                          },
+                          "target_point": {
+                            "type": "string",
+                            "example": "tg_01"
+                          }
+                        }
+                      }
+                    },
+                    "body": {
+                      "type": "object",
+                      "properties": {
+                        "is_implicity": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "model": {}
+                      }
+                    }
+                  }
+                }
+              },
+              "specifications": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "instance_name": {
+                      "type": "string",
+                      "example": "djt1_04"
+                    },
+                    "attributes": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "example": "Capacidade de Interrupção"
+                          },
+                          "type_unit": {
+                            "type": "string",
+                            "example": "kA"
+                          },
+                          "value": {
+                            "type": "string",
+                            "example": "0"
+                          }
+                        }
+                      }
+                    },
+                    "target_points": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "example": "tg_02"
+                          },
+                          "orientation": {
+                            "type": "object",
+                            "properties": {
+                              "position": {
+                                "type": "array",
+                                "example": [
+                                  0,
+                                  9,
+                                  0
+                                ],
+                                "items": {
+                                  "type": "number"
+                                }
+                              },
+                              "rotation": {
+                                "type": "array",
+                                "example": [
+                                  0,
+                                  0,
+                                  0
+                                ],
+                                "items": {
+                                  "type": "number"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
