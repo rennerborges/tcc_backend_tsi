@@ -4,6 +4,7 @@ import router from './src/routes';
 import errorController from './src/controllers/error-controller';
 
 const app = express();
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(router);

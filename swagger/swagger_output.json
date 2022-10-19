@@ -30,6 +30,13 @@
     }
   ],
   "paths": {
+    "/docs": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
     "/": {
       "get": {
         "tags": [
