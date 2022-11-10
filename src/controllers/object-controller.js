@@ -35,7 +35,9 @@ export const getObject = async (req, res, next) => {
 export const getObjects = async (req, res) => {
   /* #swagger.tags = ["Objetos"] */
   /* #swagger.description = "Rota responsável por trazer todos os objetos" */
-  const objects = await ObjectModel.find();
+  const objects = await ObjectModel.find().sort({
+    createdAt: -1,
+  });
 
   res.json({
     objects,
