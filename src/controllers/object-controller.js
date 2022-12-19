@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable max-len */
 import moment from 'moment';
 import mongoose from 'mongoose';
@@ -16,11 +17,15 @@ export const getObject = async (req, res, next) => {
   const { objectId } = req.params;
 
   try {
-    if (!mongoose.Types.ObjectId.isValid(objectId)) {
-      throw new Error('Informe um id válido');
+    const query = {};
+
+    if (mongoose.Types.ObjectId.isValid(objectId)) {
+      query._id = objectId;
+    } else {
+      query.code = objectId;
     }
 
-    const object = await ObjectModel.findById(objectId);
+    const object = await ObjectModel.findOne(query);
 
     if (!object || !object.enabled) {
       return res.status(404).json({ message: 'Object not found' });
@@ -35,7 +40,9 @@ export const getObject = async (req, res, next) => {
 export const getObjects = async (req, res) => {
   /* #swagger.tags = ["Objetos"] */
   /* #swagger.description = "Rota responsável por trazer todos os objetos" */
-  const objects = await ObjectModel.find().sort({
+  const objects = await ObjectModel.find({
+    enabled: true,
+  }).sort({
     createdAt: -1,
   });
 
